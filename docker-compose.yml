@@ -1,0 +1,8 @@
+version: '3'
+services:
+  tesstrain:
+    build: .
+    volumes:
+      - .:/srv/gerador
+    command: >
+      bash -c "cp /srv/tesstrain/data/plc.traineddata /srv/gerador"
