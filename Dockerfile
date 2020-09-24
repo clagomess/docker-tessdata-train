@@ -26,19 +26,7 @@ RUN cd /srv/tesstrain \
 && mkdir data \
 && cd data \
 && mkdir plc-ground-truth \
-&& cp /srv/gerador/* /srv/tesstrain/data/plc-ground-truth/
-
-RUN cd /srv/tesstrain/data/plc-ground-truth/ \
-&& crunch 8 8 -d 1,% -t ,OD-0%1% | php gerar-placa.php brasil
-
-RUN cd /srv/tesstrain/data/plc-ground-truth/ \
-&& crunch 7 7 -d 1,% -t DO,0,%0 | php gerar-placa.php mercosul
-
-RUN cd /srv/tesstrain/data/plc-ground-truth/ \
-&& rm *.ttf \
-&& rm *.php \
-&& rm *.yml \
-&& rm Dockerfile
+&& cp /srv/gerador/placas/* /srv/tesstrain/data/plc-ground-truth/
 
 RUN cd /srv/tesstrain \
 && make training MODEL_NAME=plc PSM=7
