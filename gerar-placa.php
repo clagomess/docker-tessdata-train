@@ -39,7 +39,18 @@ function brasil($numPlaca){
 //mercosul("BVR8317");
 //exit;
 
-$buff = array();
+$arSubstituicao = array(
+  'A' => '0',
+  'B' => '1',
+  'C' => '2',
+  'D' => '3',
+  'E' => '4',
+  'F' => '5',
+  'G' => '6',
+  'H' => '7',
+  'I' => '8',
+  'J' => '9',
+);
 
 while(!feof(STDIN)){
     $numPlaca = trim(fgets(STDIN));
@@ -48,8 +59,16 @@ while(!feof(STDIN)){
         continue;
     }
 
-    echo $numPlaca . "\n";
+    echo $numPlaca . "-";
 
-    brasil($numPlaca);
+    if(isset($arSubstituicao[$numPlaca[4]])){
+        $numPlacaBR = substr_replace($numPlaca, $arSubstituicao[$numPlaca[4]], 4, 1);
+        brasil($numPlacaBR);
+        echo "BROK-";
+    }else{
+        echo "BRNO-";
+    }
+
     mercosul(str_replace("-", "", $numPlaca));
+    echo "MCOK\n";
 }
