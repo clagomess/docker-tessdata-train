@@ -59,16 +59,17 @@ while(!feof(STDIN)){
         continue;
     }
 
-    echo $numPlaca . "-";
+    $result =  $numPlaca . "-";
 
     if(isset($arSubstituicao[$numPlaca[5]])){
         $numPlacaBR = substr_replace($numPlaca, $arSubstituicao[$numPlaca[5]], 4, 1);
         brasil($numPlacaBR);
-        echo "BROK-";
+        $result .= "BROK-";
     }else{
-        echo "BRNO-";
+        $result .= "BRNO-";
     }
 
     mercosul(str_replace("-", "", $numPlaca));
-    echo "MCOK\n";
+    $result .= "MCOK\n";
+    echo $result;
 }
