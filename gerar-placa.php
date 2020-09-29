@@ -1,12 +1,12 @@
 <?php
 function write($prefix, $numPlaca){
-    $fp = fopen(sprintf("%s_%s.gt.txt", md5($numPlaca), $prefix), 'w+');
+    $fp = fopen(sprintf("%s_%s.gt.txt", $numPlaca, $prefix), 'w+');
     fwrite($fp, $numPlaca);
     fclose($fp);
 }
 
 function image_name($prefix, $numPlaca){
-    return sprintf("%s_%s.png", md5($numPlaca), $prefix);
+    return sprintf("%s_%s.png", $numPlaca, $prefix);
 }
 
 function mercosul($numPlaca){
@@ -50,11 +50,6 @@ while(!feof(STDIN)){
 
     echo $numPlaca . "\n";
 
-    if ($argv[1] == "brasil") {
-        brasil($numPlaca);
-    }
-
-    if ($argv[1] == "mercosul") {
-        mercosul($numPlaca);
-    }
+    brasil($numPlaca);
+    mercosul(str_replace("-", "", $numPlaca));
 }
