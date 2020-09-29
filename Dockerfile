@@ -26,19 +26,12 @@ RUN cd /srv/tesstrain \
 && mkdir data \
 && cd data \
 && mkdir plc-ground-truth \
-&& cp /srv/gerador/* /srv/tesstrain/data/plc-ground-truth/
+&& cp /srv/gerador/crunch.sh /srv/tesstrain/data/plc-ground-truth/ \
+&& cp /srv/gerador/FE-FONT.ttf /srv/tesstrain/data/plc-ground-truth/ \
+&& cp /srv/gerador/gerar-placa.php /srv/tesstrain/data/plc-ground-truth/ \
+&& cp /srv/gerador/MANDATOR.ttf /srv/tesstrain/data/plc-ground-truth/ \
+&& cp /srv/gerador/bg-brasil.png /srv/tesstrain/data/plc-ground-truth/ \
+&& cp /srv/gerador/bg-mercosul.png /srv/tesstrain/data/plc-ground-truth/
 
-RUN cd /srv/tesstrain/data/plc-ground-truth/ \
-&& crunch 8 8 -d 1,% -t ,OD-0%1% | php gerar-placa.php brasil
-
-RUN cd /srv/tesstrain/data/plc-ground-truth/ \
-&& crunch 7 7 -d 1,% -t DO,0,%0 | php gerar-placa.php mercosul
-
-RUN cd /srv/tesstrain/data/plc-ground-truth/ \
-&& rm *.ttf \
-&& rm *.php \
-&& rm *.yml \
-&& rm Dockerfile
-
-RUN cd /srv/tesstrain \
-&& make training MODEL_NAME=plc PSM=7
+## loop
+RUN cd /srv/tesstrain/data/plc-ground-truth/ && bash -c ./crunch.sh

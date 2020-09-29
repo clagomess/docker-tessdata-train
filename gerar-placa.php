@@ -1,22 +1,21 @@
 <?php
 function write($prefix, $numPlaca){
-    $fp = fopen(sprintf("%s_%s.gt.txt", md5($numPlaca), $prefix), 'w+');
+    $fp = fopen(sprintf("%s_%s.gt.txt", $numPlaca, $prefix), 'w+');
     fwrite($fp, $numPlaca);
     fclose($fp);
 }
 
 function image_name($prefix, $numPlaca){
-    return sprintf("%s_%s.png", md5($numPlaca), $prefix);
+    return sprintf("%s_%s.png", $numPlaca, $prefix);
 }
 
 function mercosul($numPlaca){
-    $img = imagecreate(195 * 10, 45);
-    imagecolorallocate($img, 255, 255, 255);
+    $img = imagecreatefrompng("bg-mercosul.png");
     $black = imagecolorallocate($img, 0, 0, 0);
 
     $imagename = image_name("mercosul", $numPlaca);
 
-    imagettftext($img, 30, 0, 5, 35, $black, "./FE-FONT.ttf", $numPlaca);
+    imagettftext($img, 12, 0, 8, 23, $black, "./FE-FONT.ttf", $numPlaca);
     imagepng($img, $imagename);
     imagedestroy($img);
 
@@ -24,21 +23,20 @@ function mercosul($numPlaca){
 }
 
 function brasil($numPlaca){
-    $img = imagecreate(186 * 10, 40);
-    imagecolorallocate($img, 255, 255, 255);
+    $img = imagecreatefrompng("bg-brasil.png");
     $black = imagecolorallocate($img, 0, 0, 0);
 
     $imagename = image_name("brasil", $numPlaca);
 
-    imagettftext($img, 30, 0, 5, 35, $black, "./MANDATOR.ttf", $numPlaca);
+    imagettftext($img, 12, 0, 10, 26, $black, "./MANDATOR.ttf", $numPlaca);
     imagepng($img, $imagename);
     imagedestroy($img);
 
     write("brasil", $numPlaca);
 }
 
-//brasil("OVR-8317 OVR-8317 OVR-8317 OVR-8317 OVR-8317 OVR-8317 OVR-8317 OVR-8317 OVR-8317 OVR-9999");
-//mercosul("OVR8317 OVR8317 OVR8317 OVR8317 OVR8317 OVR8317 OVR8317 OVR8317 OVR8317 OVR9999");
+//brasil("OVR-8317");
+//mercosul("BVR8317");
 //exit;
 
 $buff = array();
@@ -50,20 +48,8 @@ while(!feof(STDIN)){
         continue;
     }
 
-    $buff[] = $numPlaca;
+    echo $numPlaca . "\n";
 
-    if(count($buff) == 10) {
-        $numPlacas = implode(" ", $buff);
-        echo $numPlacas . "\n";
-
-        if ($argv[1] == "brasil") {
-            brasil($numPlacas);
-        }
-
-        if ($argv[1] == "mercosul") {
-            mercosul($numPlacas);
-        }
-
-        $buff = array();
-    }
+    brasil($numPlaca);
+    mercosul(str_replace("-", "", $numPlaca));
 }
