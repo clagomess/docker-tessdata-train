@@ -2,7 +2,7 @@ crunch 3 3 ABCDEFGHIJKLMNOPQRSTUVWXYZ | while read bloco; do
   echo "CRUNCH BLOCO $bloco"
   DIR_GROUNDTRUTH_BLOCO="/srv/tesstrain/${bloco}"
   mkdir $DIR_GROUNDTRUTH_BLOCO
-  local LETRA_JOBS=()
+  LETRA_JOBS=()
 
   while read letra; do
       DIR_GROUNDTRUTH="$DIR_GROUNDTRUTH_BLOCO/${letra}"
@@ -19,12 +19,16 @@ crunch 3 3 ABCDEFGHIJKLMNOPQRSTUVWXYZ | while read bloco; do
 
       # gerar placas
       cd $DIR_GROUNDTRUTH
-      crunch 8 8 -d 3,% -t "${bloco}-%${letra}%%" | php gerar-placa.php
+      PLACAS=()
+      while read placa; do
+        echo $placa | php gerar-placa.php & PLACAS+=($!)
+      done < <(crunch 8 8 -d 3,% -t "${bloco}-%${letra}%%")
+      wait ${PLACAS[@]}
 
       # treinar
       cd /srv/tesstrain
       make training MODEL_NAME=plc PSM=7 CORES=`nproc` PROTO_MODEL=/srv/tesstrain/data/plc.traineddata GROUND_TRUTH_DIR=$DIR_GROUNDTRUTH & LETRA_JOBS+=($!)
-  done < <(crunch 1 1 AB)
+  done < <(crunch 1 1 ABCDEFGHIJKLMNOPQRSTUVWXYZ)
 
   echo "######### WAIT FOR ${LETRA_JOBS[@]}"
   wait ${LETRA_JOBS[@]}
