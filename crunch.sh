@@ -1,8 +1,8 @@
-crunch 2 2 ABCDEFGHIJKLMNOPQRSTUVWXYZ | while read bloco; do
+crunch 3 3 ABCDEFGHIJKLMNOPQRSTUVWXYZ | while read bloco; do
   echo "CRUNCH BLOCO $bloco"
 
-  cd /srv/tesstrain/data/plc-ground-truth && crunch 8 8 -d 3,% -t "${bloco},-%,%%" | php gerar-placa.php
-#  cd /srv/tesstrain/data/plc-ground-truth && crunch 8 8 -d 3,% -t "${bloco}A-1234" | php gerar-placa.php # teste
+  cd /srv/tesstrain/data/plc-ground-truth && crunch 8 8 -d 3,% -t "${bloco}-%,%%" | php gerar-placa.php
+#  cd /srv/tesstrain/data/plc-ground-truth && crunch 8 8 -d 3,% -t "${bloco}-1234" | php gerar-placa.php # teste
 
   cd /srv/tesstrain && make training MODEL_NAME=plc PSM=7
 
