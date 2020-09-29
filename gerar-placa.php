@@ -61,8 +61,8 @@ while(!feof(STDIN)){
 
     echo $numPlaca . "-";
 
-    if(isset($arSubstituicao[$numPlaca[4]])){
-        $numPlacaBR = substr_replace($numPlaca, $arSubstituicao[$numPlaca[4]], 4, 1);
+    if(isset($arSubstituicao[$numPlaca[5]])){
+        $numPlacaBR = substr_replace($numPlaca, $arSubstituicao[$numPlaca[5]], 4, 1);
         brasil($numPlacaBR);
         echo "BROK-";
     }else{
